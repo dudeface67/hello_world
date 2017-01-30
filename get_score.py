@@ -1,5 +1,7 @@
 from AdvancedHTMLParser.Tags import AdvancedTag
 from AdvancedHTMLParser.Parser import AdvancedHTMLParser
+from datetime import datetime
+
 import urllib.request
 import json
 
@@ -33,20 +35,31 @@ def get_match_id(team):
 
             home_team = m.getElementsByClassName("home")[0].getChildren().getElementsByTagName("span")[0].innerHTML
             away_team = m.getElementsByClassName("away")[0].getChildren().getElementsByTagName("span")[0].innerHTML
+            match_date = m.parentElement.parentElement.getAttribute("data-day")
+            competition = m.parentElement.getChildren().getElementsByTagName("thead")[0].getElementsByClassName("comp-title")[0].innerHTML
 
-    return {'id': match_id, 'status':match_status, 'home': home_team, 'away': away_team}
+            return {'id': match_id, 'status':match_status, 'home': home_team, 'away': away_team, 'date': datetime.strptime(match_date, "%Y-%m-%d"), 'competition':competition}
+    return None
 
 def get_match_data(match_id):
     match_data_raw = urllib.request.urlopen(match_data_format % (match_id)).read().decode("utf-8")
     match_data = json.loads(match_data_raw)
-    #match status can be playing, or played
+    #match status can be playing, fixture, postponed or played
     return match_data
 
-
-match = get_match_id("Athletic Club")
-match_data = get_match_data(match['id'])
-
-print("%s %s %s %s" %(match_data['mobile_formatted_data']['period'], match['home'], match_data['mobile_formatted_data']['result'], match['away']))
-for team, events in match_data['scorers'].items():
-    for scorer in events:
-        print(scorer['scores'] + " (" + match[team] + ")")
+search_team = "Milan"
+match = get_match_id(search_team)
+if match is not None:
+    match_data = get_match_data(match['id'])
+    if match_data['status'] in ['playing','played']:
+        print("%s %s %s %s" %(match_data['mobile_formatted_data']['period'], match['home'], match_data['mobile_formatted_data']['result'], match['away']))
+        for team, events in match_data['scorers'].items():
+            for scorer in events:
+                print(scorer['scores'] + " (" + match[team] + ")")
+    elif match_data['status'] in ['fixture','postponed']:
+        print("%s %s - %s vs. %s" %(match['date'].strftime('%d/%m'), match_data['mobile_formatted_data']['result'], match['home'], match['away']))
+    else:
+        print(match)
+        print(match_data)
+else:
+    print("No match found for team: " + search_team)
