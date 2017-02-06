@@ -1,14 +1,10 @@
-#I just wanted to parse the wikipedia main page and return the title and text of the day
-#I am fully aware of the wikipedia package to make this easier but it would defeat the purpose
-
-from AdvancedHTMLParser.Parser import AdvancedHTMLParser
-from datetime import datetime
-
 import urllib.request
-import json #shouldn't need this
 
 
-def wiki_oftheday():
-    wikiURL = 'https://en.wikipedia.org/wiki/Main_Page'
-    parser = AdvancedHTMLParser()
-    parser.parseStr(wikiURL)
+url = 'https://en.wikipedia.org/'
+headers = {}
+headers ['User-Agent'] = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_2) AppleWebKit/600.3.18 (KHTML, like Gecko) Version/8.0.3 Safari/600.3.18'
+req = urllib.request.Request(url,headers = headers)
+resp = urllib.request.urlopen(req)
+respdata = resp.read()
+print (respdata)
