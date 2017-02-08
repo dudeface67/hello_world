@@ -1,0 +1,1 @@
+#wikiapi wont work with python 3 for me, 2 is fine
