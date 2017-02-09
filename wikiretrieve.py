@@ -16,7 +16,7 @@ def get_article():
     webpage = urllib.request.urlopen(url).read()
     parser = AdvancedHTMLParser()
     parser.parseStr(webpage)
-    featured_article = parser.getElementById("mp-tfa").getChildren().getElementsByTagName("p")
+    featured_article = parser.getElementById("mp-tfa").getChildren().getElementsByTagName("p")[0]
     print (featured_article)
 
 get_article()
