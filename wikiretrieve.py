@@ -1,33 +1,27 @@
-# I just want it to retrieve the the featured article
-
 import urllib.request
 import urllib.parse
-#import re
 from AdvancedHTMLParser import AdvancedHTMLParser
-from AdvancedHTMLParser.Tags import AdvancedTag
+from re import split
 
 #user agent not required, thought they were but im just bad :D
-
-url = 'https://en.wikipedia.org/wiki/Main_Page'
 #headers = {}
 #headers ['User-Agent'] = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_2) AppleWebKit/600.3.18 (KHTML, like Gecko) Version/8.0.3 Safari/600.3.18'
+url = 'https://en.wikipedia.org/wiki/Main_Page'
 
-def get_article():
+def get_title():
     webpage = urllib.request.urlopen(url).read()
     parser = AdvancedHTMLParser()
     parser.parseStr(webpage)
     featured_article = parser.getElementById("mp-tfa").getChildren().getElementsByTagName("p")[0]
-    print (featured_article)
+    featured_title = featured_article.getChildren().getElementsByTagName("b")[0].getChildren().getElementsByTagName("a")[0]
+    print (featured_title)
+    #print (featured_article)
+    featured_title = str(featured_title)
+    featured_title = featured_title.split(">")
+    print(featured_title)
+    featured_title = featured_title[-1]
+    print(featured_title)
 
-get_article()
+get_title()
 
-
-'''
-req = urllib.request.Request(url,headers = headers)
-resp = urllib.request.urlopen(req)
-respdata = str(resp.read())
-
-parser = AdvancedHTMLParser()
-article = parser.getElementById('featured')
-print (article)
-'''
+#def send(email):
