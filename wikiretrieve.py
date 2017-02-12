@@ -7,6 +7,7 @@ from re import split
 #headers = {}
 #headers ['User-Agent'] = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_2) AppleWebKit/600.3.18 (KHTML, like Gecko) Version/8.0.3 Safari/600.3.18'
 url = 'https://en.wikipedia.org/wiki/Main_Page'
+search_url = 'https://www.wikipedia.org/'
 
 def get_title():
     webpage = urllib.request.urlopen(url).read()
@@ -18,8 +19,7 @@ def get_title():
     #print (featured_article)
     featured_title = str(featured_title)
     featured_title = featured_title.split(">")
-    print(featured_title)
-    featured_title = featured_title[-1]
+    featured_title = featured_title[-2].rstrip("</a")
     print(featured_title)
 
 get_title()
