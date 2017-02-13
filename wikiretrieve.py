@@ -22,15 +22,3 @@ def get_title():
         file.write(featured_title)
 
 get_title()
-
-'''
-def search_wiki():
-    get_title()
-    values = {'search':featured_title
-              'go':'GO'}
-    data = urllib.parse.urlencode(values)
-    data = data.encode('utf-8')
-    req = urllib.request.Request(url,data)
-    resp = urllib.request.urlopen(req).read()
-    print (resp)
-'''
