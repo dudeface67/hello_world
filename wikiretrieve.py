@@ -1,7 +1,6 @@
 import urllib.request
 import urllib.parse
 from AdvancedHTMLParser import AdvancedHTMLParser
-from re import split
 
 #user agent not required, thought they were but im just bad :D
 #headers = {}
@@ -9,19 +8,29 @@ from re import split
 url = 'https://en.wikipedia.org/wiki/Main_Page'
 search_url = 'https://www.wikipedia.org/'
 
+#This function should just get the title of the daily featured article and save it to title_of_the_day.txt
 def get_title():
     webpage = urllib.request.urlopen(url).read()
     parser = AdvancedHTMLParser()
     parser.parseStr(webpage)
     featured_article = parser.getElementById("mp-tfa").getChildren().getElementsByTagName("p")[0]
     featured_title = featured_article.getChildren().getElementsByTagName("b")[0].getChildren().getElementsByTagName("a")[0]
-    print (featured_title)
-    #print (featured_article)
     featured_title = str(featured_title)
     featured_title = featured_title.split(">")
     featured_title = featured_title[-2].rstrip("</a")
-    print(featured_title)
+    with open('title_of_the_day.txt', 'w') as file:
+        file.write(featured_title)
 
 get_title()
 
-#def send(email):
+'''
+def search_wiki():
+    get_title()
+    values = {'search':featured_title
+              'go':'GO'}
+    data = urllib.parse.urlencode(values)
+    data = data.encode('utf-8')
+    req = urllib.request.Request(url,data)
+    resp = urllib.request.urlopen(req).read()
+    print (resp)
+'''
