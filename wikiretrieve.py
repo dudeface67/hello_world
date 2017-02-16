@@ -13,11 +13,15 @@ def get_title():
     webpage = urllib.request.urlopen(url).read()
     parser = AdvancedHTMLParser()
     parser.parseStr(webpage)
-    featured_article = parser.getElementById("mp-tfa").getChildren().getElementsByTagName("p")[0]
+    featured_article = parser.getElementById("mp-tfa").getChildren().getElementsByTagName("i")[0]
     featured_title = featured_article.getChildren().getElementsByTagName("b")[0].getChildren().getElementsByTagName("a")[0]
+    print (featured_title)
     featured_title = str(featured_title)
+    print(featured_title)
     featured_title = featured_title.split(">")
+    print(featured_title)
     featured_title = featured_title[-2].rstrip("</a")
+    print(featured_title)
     with open('title_of_the_day.txt', 'w') as file:
         file.write(featured_title)
 
