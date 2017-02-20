@@ -13,7 +13,7 @@ def get_title():
     webpage = urllib.request.urlopen(url).read()
     parser = AdvancedHTMLParser()
     parser.parseStr(webpage)
-    featured_article = parser.getElementById("mp-tfa").getChildren().getElementsByTagName("i")[0]
+    featured_article = parser.getElementById("mp-tfa").getChildren().getElementsByTagName("p")[0]
     featured_title = featured_article.getChildren().getElementsByTagName("b")[0].getChildren().getElementsByTagName("a")[0]
     print (featured_title)
     featured_title = str(featured_title)
@@ -26,3 +26,5 @@ def get_title():
         file.write(featured_title)
 
 get_title()
+
+#/home/pi/dev/hello_world/title_of_the_day.txt
